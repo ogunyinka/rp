@@ -1,0 +1,185 @@
+#====================================================
+#function starts here
+Mixture_Ratio <- function (NN) {
+
+for (i in c(1:16)) {
+
+#N will be supplied by the user
+
+#compute n1 and n2
+n1 <- round(NN/3)
+n2 <- round(n1/3)
+seed.value <- abs(round(rnorm(1,sd=300)))
+
+#Generate population data of Variable
+set.seed(seed.value)
+X1 <- 1:NN + rnorm(NN,45, 3)
+set.seed(seed.value)
+X2 <- 1:NN/4 + rnorm(NN,40, 2)
+set.seed(seed.value)
+X3 <- 1:NN/3 + rnorm(NN,35, 4)
+set.seed(seed.value)
+X4 <- 1:NN/2 + rnorm(NN,30, 5)
+set.seed(seed.value)
+X5 <- 1:NN/5 + rnorm(NN,25, 7)
+set.seed(seed.value)
+X6 <- 1:NN + rnorm(NN,45, 8)
+set.seed(seed.value)
+X7 <- 1:NN/4 + rnorm(NN,40, 9)
+set.seed(seed.value)
+X8 <- 1:NN/3 + rnorm(NN,35, 10)
+set.seed(seed.value)
+X9 <- 1:NN/2 + rnorm(NN,30, 11)
+set.seed(seed.value)
+X10 <- 1:NN/5 + rnorm(NN,25, 12)
+set.seed(seed.value)
+X11 <- 1:NN + rnorm(NN,45, 1)
+set.seed(seed.value)
+X12 <- 1:NN/4 + rnorm(NN,40, 3)
+
+
+#Sample the 1st phase sample of n1 for Variable
+set.seed(seed.value)
+x11 <- sample(X1, n1)
+set.seed(seed.value)
+x12 <- sample(X2, n1)
+set.seed(seed.value)
+x13 <- sample(X3, n1)
+set.seed(seed.value)
+x14 <- sample(X4, n1)
+set.seed(seed.value)
+x15 <- sample(X5, n1)
+set.seed(seed.value)
+x16 <- sample(X6, n1)
+set.seed(seed.value)
+x17 <- sample(X7, n1)
+set.seed(seed.value)
+x18 <- sample(X8, n1)
+set.seed(seed.value)
+x19 <- sample(X9, n1)
+set.seed(seed.value)
+x110 <- sample(X10, n1)
+set.seed(seed.value)
+x111 <- sample(X11, n1)
+set.seed(seed.value)
+x112 <- sample(X12, n1)
+
+
+#Sample the 2nd phase sample of n2 for Variable
+set.seed(seed.value)
+x21 <- 1:n2 + rnorm(n2,45, 10)
+set.seed(seed.value + 10)
+x22 <- 1:n2/4 + rnorm(n2,100, 8)
+set.seed(seed.value + 2)
+x23 <- 1:n2/3 + rnorm(n2,55, 15)
+set.seed(seed.value + 15)
+x24 <- 1:n2/2 + rnorm(n2,80, 5)
+set.seed(seed.value + 9)
+x25 <- 1:n2/5 + rnorm(n2,25, 7)
+set.seed(seed.value + 1)
+x26 <- 1:n2 + rnorm(n2,45, 10)
+set.seed(seed.value + 11)
+x27 <- 1:n2/4 + rnorm(n2,100, 8)
+set.seed(seed.value + 12)
+x28 <- 1:n2/3 + rnorm(n2,55, 13)
+set.seed(seed.value + 13)
+x29 <- 1:n2/2 + rnorm(n2,80, 12)
+set.seed(seed.value + 14)
+x210 <- 1:n2/5 + rnorm(n2,25, 11)
+set.seed(seed.value + 16)
+x211 <- 1:n2 + rnorm(n2,45, 10)
+set.seed(seed.value + 17)
+x212 <- 1:n2/4 + rnorm(n2,100, 9)
+
+
+#==================================================================
+#Compute for Y population data
+set.seed(seed.value)
+YY <- (2*X2) + (X1*X2/5) + 3 + rnorm(NN,sd=4)
+#YY <- (X2/2) + (X1*(T1+T2+T3+T4+T5)/5) + rnorm(NN,sd=4)
+
+set.seed(seed.value)
+#yy <- (2*x22) + (x21+x22+x23+x24+x25+x26+x27+x28+x29+x210+x211+x212/10) + 3 + rnorm(n2,sd=4)
+yy <- (x21/2) + (x21*(x21+x22+x23+x24+x25+x26)/5) + ((x27+x28+x29+x210+x211+x212)/3) + rnorm(n2,sd=4) + rbinom(n2, 1, 0.05)
+
+#Data frame for all variables and attributes at the 2nd phase
+df_xt <- data.frame(yy, x21, x22, x23, x24, x25, x26, x27, x28, x29, x210, x211,x212)
+cor(df_xt)
+
+#Population mean of Y square
+Y_bar <- round(mean(yy), digits=4)
+Y_bar_2 <- (mean(yy))^2
+
+#Population Coefficient of variation of Y square
+Y_CV <- round(sd(yy)/Y_bar, digits=4)
+Y_CV_2 <- (sd(yy)/Y_bar)^2
+
+#Computation of titas
+tita_1 <- round((1/n1)-(1/NN), digits=4)
+tita_2 <- round((1/n2)-(1/NN), digits=4)
+
+#Computation of Multiple Correlation Coefficients (CC)
+#=================================================================
+
+#MCC for all auxiliary variables (x's) and attributes (t's) on  the study variable (Y)
+MCC_txb <- summary(lm(yy ~ x21 + x22 + x23 + x24 + x25 + x26 +x27 + x28 + x29 + x210 + x211 + x212))
+MCC_txb_2 <- round(MCC_txb$r.squared, digits=4)
+
+#MCC for auxiliary variables (r, h) on  the study variable (Y)
+MCC_tx1 <- summary(lm(yy ~ x21 + x22 + x23 +x27 + x28 + x29))
+MCC_tx1_2 <- round(MCC_tx1$r.squared, digits=4)
+
+#MCC for auxiliary variables (k, h) on  the study variable (Y)
+MCC_tx2 <- summary(lm(yy ~ x21 + x22 + x23 + x24 + x25 + x26 + x27 + x28  + x29))
+MCC_tx2_2 <- round(MCC_tx2$r.squared, digits=4)
+
+#MCC for all auxiliary variables (r, p) on  the study variable (Y)
+MCC_tx3 <- summary(lm(yy ~ x21 + x22 + x23 + x27 + x28 + x29 + x210 + x211 + x212))
+MCC_tx3_2 <- round(MCC_tx3$r.squared, digits=4)
+
+#================================================
+
+#Computation of MSE for FIC
+MSE_FIC <- round(tita_2 * Y_bar_2 * Y_CV_2 * (1 - MCC_txb_2), digits=4)
+
+#Computation of MSE for NIC
+MSE_NIC <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 * MCC_txb_2) ) , digits=4)
+
+#Computation of MSE for PIC-I
+MSE_PIC1 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx1_2)) ) , digits=4)
+
+#Computation of MSE for PIC-II
+MSE_PIC2 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx2_2)) ) , digits=4)
+
+#Computation of MSE for PIC-III
+MSE_PIC3 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx3_2)) ) , digits=4)
+
+
+df_result <- data.frame (
+S_no = c(1:9),
+
+Info_Case = c("   FIC", "  PIC-I", "  PIC-II" ,"  PIC-III","  NIC", "============", "============", "============", "============"),
+MSE= c(MSE_FIC, MSE_PIC1, MSE_PIC2, MSE_PIC3, MSE_NIC, "============", "============", "============", "============"),
+
+size = c("  Population", "   1st Phase", "   2nd Phase", "   Seed Value", "Pop. Mean(Y)2", "Varia. Coeff.(Y)2", "   Theta(1)", "   Theta(2)", " "),
+size = c(NN, n1, n2, seed.value, round(Y_bar_2, digits=4), round(Y_CV_2, digits=4), round(tita_1, digits=4), round(tita_2, digits=4), " "),
+
+MCC_tx = c("MCCFIC", "MCCNIC", "MCCPIC1", "MCCPIC2", "==========","==========","==========", "============","=========="),
+MCC_tx_val = c(round(MCC_txb_2, digits=4), round(MCC_tx1_2, digits=4), round(MCC_tx2_2, digits=4), round(MCC_tx3_2, digits=4), "==========", "==========", "==========", "=========="," "),
+
+stringsAsFactors = FALSE
+)
+
+csvfile <- paste ("data",i,".csv")
+write.csv(df_result, file=csvfile, append = TRUE, fileEncoding = "UTF-16LE")
+
+print(round(cor(df_xt), digits=2))
+print(df_result)
+#print(cor_xt)
+
+NN = NN -640
+}
+
+}
+
+Mixture_Ratio(10000)
