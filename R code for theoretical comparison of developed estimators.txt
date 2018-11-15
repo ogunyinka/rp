@@ -1,8 +1,8 @@
 #====================================================
 #function starts here
-Mixture_Ratio <- function (NN) {
+Mixture_Ratio <- function (NN, NN_step, pop_total, analysis_result_console, save_analysis_result, save_data_file, corr_matrix_console, save_corr_matrix_file) {
 
-for (i in c(1:16)) {
+for (i in c(1:pop_total)) {
 
 #N will be supplied by the user
 
@@ -12,99 +12,150 @@ n2 <- round(n1/3)
 seed.value <- abs(round(rnorm(1,sd=300)))
 
 #Generate population data of Variable
-set.seed(seed.value)
-X1 <- 1:NN + rnorm(NN,45, 3)
-set.seed(seed.value)
-X2 <- 1:NN/4 + rnorm(NN,40, 2)
-set.seed(seed.value)
-X3 <- 1:NN/3 + rnorm(NN,35, 4)
-set.seed(seed.value)
-X4 <- 1:NN/2 + rnorm(NN,30, 5)
-set.seed(seed.value)
-X5 <- 1:NN/5 + rnorm(NN,25, 7)
-set.seed(seed.value)
-X6 <- 1:NN + rnorm(NN,45, 8)
-set.seed(seed.value)
-X7 <- 1:NN/4 + rnorm(NN,40, 9)
-set.seed(seed.value)
-X8 <- 1:NN/3 + rnorm(NN,35, 10)
-set.seed(seed.value)
-X9 <- 1:NN/2 + rnorm(NN,30, 11)
-set.seed(seed.value)
-X10 <- 1:NN/5 + rnorm(NN,25, 12)
-set.seed(seed.value)
-X11 <- 1:NN + rnorm(NN,45, 1)
-set.seed(seed.value)
-X12 <- 1:NN/4 + rnorm(NN,40, 3)
+#===For Ratio Estimator===
+set.seed(seed.value +4)
+X1 <- rnorm(NN,25, 10)
+
+set.seed(seed.value +14)
+X2 <- rnorm(NN,40, 2)
+
+set.seed(seed.value +24)
+X3 <- rnorm(NN,35, 4)
+
+set.seed(seed.value +34)
+X4 <- rnorm(NN,30, 5)
+
+set.seed(seed.value +44)
+X5 <- rnorm(NN,25, 7)
+
+set.seed(seed.value +54)
+X6 <- rnorm(NN,45, 8)
+
+#===For Product Estimator===
+set.seed(seed.value +64)
+X7 <- rnorm(NN,40, 9)
+
+set.seed(seed.value +74)
+X8 <- rnorm(NN,35, 10)
+
+set.seed(seed.value +84)
+X9 <- rnorm(NN,30, 11)
+
+set.seed(seed.value +94)
+X10 <- rnorm(NN,25, 12)
+
+set.seed(seed.value +31)
+X11 <- rnorm(NN,27, 21)
+
+set.seed(seed.value +13)
+X12 <- rnorm(NN,32, 18)
 
 
 #Sample the 1st phase sample of n1 for Variable
-set.seed(seed.value)
+#===For Ratio Estimator===
+set.seed(seed.value + 15)
 x11 <- sample(X1, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 20)
 x12 <- sample(X2, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 25)
 x13 <- sample(X3, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 30)
 x14 <- sample(X4, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 35)
 x15 <- sample(X5, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 40)
 x16 <- sample(X6, n1)
-set.seed(seed.value)
+
+#===For Product Estimator===
+set.seed(seed.value + 42)
 x17 <- sample(X7, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 47)
 x18 <- sample(X8, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 52)
 x19 <- sample(X9, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 60)
 x110 <- sample(X10, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 65)
 x111 <- sample(X11, n1)
-set.seed(seed.value)
+
+set.seed(seed.value + 68)
 x112 <- sample(X12, n1)
 
 
 #Sample the 2nd phase sample of n2 for Variable
+#===For Ratio Estimator===
 set.seed(seed.value)
-x21 <- 1:n2 + rnorm(n2,45, 10)
+x21 <- round(rnorm(n2, 15, 20))
+
 set.seed(seed.value + 10)
-x22 <- 1:n2/4 + rnorm(n2,100, 8)
+x22 <- round(rnorm(n2, 70, 10))
+
 set.seed(seed.value + 2)
-x23 <- 1:n2/3 + rnorm(n2,55, 15)
+x23 <- round(rnorm(n2, 59, 12))
+
 set.seed(seed.value + 15)
-x24 <- 1:n2/2 + rnorm(n2,80, 5)
+x24 <- round(rnorm(n2, 63, 7))
+
 set.seed(seed.value + 9)
-x25 <- 1:n2/5 + rnorm(n2,25, 7)
+x25 <- round(rnorm(n2, 59, 9))
+
 set.seed(seed.value + 1)
-x26 <- 1:n2 + rnorm(n2,45, 10)
+x26 <- round(rnorm(n2,45, 10))
+
+#===For Product Estimator===
 set.seed(seed.value + 11)
-x27 <- 1:n2/4 + rnorm(n2,100, 8)
+x27 <- round(rnorm(n2,100, 8))
+
 set.seed(seed.value + 12)
-x28 <- 1:n2/3 + rnorm(n2,55, 13)
+x28 <- round(rnorm(n2,55, 13))
+
 set.seed(seed.value + 13)
-x29 <- 1:n2/2 + rnorm(n2,80, 12)
+x29 <- round(rnorm(n2,80, 12))
+
 set.seed(seed.value + 14)
-x210 <- 1:n2/5 + rnorm(n2,25, 11)
+x210 <- round(rnorm(n2,25, 11))
+
 set.seed(seed.value + 16)
-x211 <- 1:n2 + rnorm(n2,45, 10)
+x211 <- round(rnorm(n2,35, 18))
+
 set.seed(seed.value + 17)
-x212 <- 1:n2/4 + rnorm(n2,100, 9)
+x212 <- round(rnorm(n2,42, 22))
 
 
 #==================================================================
 #Compute for Y population data
-set.seed(seed.value)
-YY <- (2*X2) + (X1*X2/5) + 3 + rnorm(NN,sd=4)
-#YY <- (X2/2) + (X1*(T1+T2+T3+T4+T5)/5) + rnorm(NN,sd=4)
+set.seed(seed.value +15)
+YY <- round((X1/2) + ((X1+X2+X3+X4+X5+X6+X7+X8+X9+X10+X11+X12)) + rnorm(NN, 30, 4))
 
-set.seed(seed.value)
-#yy <- (2*x22) + (x21+x22+x23+x24+x25+x26+x27+x28+x29+x210+x211+x212/10) + 3 + rnorm(n2,sd=4)
-yy <- (x21/2) + (x21*(x21+x22+x23+x24+x25+x26)/5) + ((x27+x28+x29+x210+x211+x212)/3) + rnorm(n2,sd=4) + rbinom(n2, 1, 0.05)
+set.seed(seed.value +200)
+yy <- round((x21/2) + ((x22+x23+x25+x27+x211)) + rnorm(n2, 30, 4))
+#yy <- sample(YY, n2)
 
 #Data frame for all variables and attributes at the 2nd phase
 df_xt <- data.frame(yy, x21, x22, x23, x24, x25, x26, x27, x28, x29, x210, x211,x212)
-cor(df_xt)
+cor_xt <- cor(df_xt, method = "pearson")
+
+cor_x1 <- round(cor(yy, x21, method = "pearson"), digit=4)
+cor_x2 <- round(cor(yy, x22, method = "pearson"), digit=4)
+cor_x3 <- round(cor(yy, x23, method = "pearson"), digit=4)
+cor_x4 <- round(cor(yy, x24, method = "pearson"), digit=4)
+cor_x5 <- round(cor(yy, x25, method = "pearson"), digit=4)
+cor_x6 <- round(cor(yy, x26, method = "pearson"), digit=4)
+cor_x7 <- round(cor(yy, x27, method = "pearson"), digit=4)
+cor_x8 <- round(cor(yy, x28, method = "pearson"), digit=4)
+cor_x9 <- round(cor(yy, x29, method = "pearson"), digit=4)
+cor_x10 <- round(cor(yy, x210, method = "pearson"), digit=4)
+cor_x11 <- round(cor(yy, x211, method = "pearson"), digit=4)
+cor_x12 <- round(cor(yy, x212, method = "pearson"), digit=4)
 
 #Population mean of Y square
 Y_bar <- round(mean(yy), digits=4)
@@ -140,46 +191,99 @@ MCC_tx3_2 <- round(MCC_tx3$r.squared, digits=4)
 #================================================
 
 #Computation of MSE for FIC
-MSE_FIC <- round(tita_2 * Y_bar_2 * Y_CV_2 * (1 - MCC_txb_2), digits=4)
+MSE_FIC <- round(tita_2 * Y_bar_2 * Y_CV_2 * (1 - MCC_txb_2), digits=7)
 
 #Computation of MSE for NIC
-MSE_NIC <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 * MCC_txb_2) ) , digits=4)
+MSE_NIC <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 * MCC_txb_2) ) , digits=7)
 
 #Computation of MSE for PIC-I
-MSE_PIC1 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx1_2)) ) , digits=4)
+MSE_PIC1 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx1_2)) ) , digits=7)
 
 #Computation of MSE for PIC-II
-MSE_PIC2 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx2_2)) ) , digits=4)
+MSE_PIC2 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx2_2)) ) , digits=7)
 
 #Computation of MSE for PIC-III
-MSE_PIC3 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx3_2)) ) , digits=4)
+MSE_PIC3 <- round( (Y_bar_2 * Y_CV_2) * ( (tita_2 * (1 - MCC_txb_2)) + (tita_1 *( MCC_txb_2 - MCC_tx3_2)) ) , digits=7)
 
 
 df_result <- data.frame (
-S_no = c(1:9),
+S_no = c(1:12),
 
-Info_Case = c("   FIC", "  PIC-I", "  PIC-II" ,"  PIC-III","  NIC", "============", "============", "============", "============"),
-MSE= c(MSE_FIC, MSE_PIC1, MSE_PIC2, MSE_PIC3, MSE_NIC, "============", "============", "============", "============"),
+Info_Case = c("   FIC", "  PIC-I", "  PIC-II" ,"  PIC-III","  NIC", "============", "MCCFIC", "MCCPIC1", "MCCPIC2", "MCCPIC3", "============", "============"),
+MSE= c(MSE_FIC, MSE_PIC1, MSE_PIC2, MSE_PIC3, MSE_NIC, "============",round(MCC_txb_2, digits=4), round(MCC_tx1_2, digits=4), round(MCC_tx2_2, digits=4), round(MCC_tx3_2, digits=4), "============", "============"),
 
-size = c("  Population", "   1st Phase", "   2nd Phase", "   Seed Value", "Pop. Mean(Y)2", "Varia. Coeff.(Y)2", "   Theta(1)", "   Theta(2)", " "),
-size = c(NN, n1, n2, seed.value, round(Y_bar_2, digits=4), round(Y_CV_2, digits=4), round(tita_1, digits=4), round(tita_2, digits=4), " "),
+size = c("  Population", "   1st Phase", "   2nd Phase", "   Seed Value", "Pop. Mean(Y)2", "Varia. Coeff.(Y)2", "   Theta(1)", "   Theta(2)", " ", "============", "============", "============"),
+size = c(NN, n1, n2, seed.value, round(Y_bar_2, digits=4), round(Y_CV_2, digits=4), round(tita_1, digits=4), round(tita_2, digits=4), " ", "============", "============", "============"),
 
-MCC_tx = c("MCCFIC", "MCCNIC", "MCCPIC1", "MCCPIC2", "==========","==========","==========", "============","=========="),
-MCC_tx_val = c(round(MCC_txb_2, digits=4), round(MCC_tx1_2, digits=4), round(MCC_tx2_2, digits=4), round(MCC_tx3_2, digits=4), "==========", "==========", "==========", "=========="," "),
+Correl = c( "Cor_yx1","Cor_yx2","Cor_yx3", "Cor_yx4", "Cor_yx5","Cor_yx6","Cor_yx7", "Cor_yx8","Cor_yx9", "Cor_yx10", "Cor_yx11", "Cor_yx12"),
+Correl_Val = c( cor_x1,cor_x2,cor_x3, cor_x4, cor_x5, cor_x6, cor_x7, cor_x8, cor_x9, cor_x10, cor_x11, cor_x12),
 
 stringsAsFactors = FALSE
 )
 
-csvfile <- paste ("data",i,".csv")
-write.csv(df_result, file=csvfile, append = TRUE, fileEncoding = "UTF-16LE")
 
-print(round(cor(df_xt), digits=2))
+#=======#This will write the Analysis results into a CSV and saves the CSV file into the R default directory "MY DOCUMENT" =========================
+if (save_analysis_result == 1) {
+csvfile <- paste ("analysis_result",i,".csv")
+write.csv(df_result, file=csvfile, append = TRUE, fileEncoding = "UTF-16LE")
+}
+else {
+print(paste ("You did not request to save the analysis result into CSV file for operation ", i) )
+}
+#=======End: This will Save the data to a CSV file =========================
+
+
+#=======Begin: This will Save the data to a CSV file and saves the CSV file into the R default directory "MY DOCUMENT" =========================
+if (save_data_file == 1) {
+data_csvfile <- paste ("data_file",i,".csv")
+write.csv(df_xt, file=data_csvfile, append = TRUE, fileEncoding = "UTF-16LE")
+}
+else {
+print(paste ("You did not request to save the data into CSV file for operation ", i) )
+}
+#=======End: This will Save the data to a CSV file =========================
+
+#=======Begin: #This prints the results on the R Console environ =========================
+if (analysis_result_console == 1) {
 print(df_result)
+}
+else {
+print(paste ("You did not request to print the result on the R console for operation ", i) )
+}
+#=======End: #This prints the results on the R Console environ =========================
+
+#=======Begin: #This prints the results of the correlation coefficient on the R Console environ =========================
+if (corr_matrix_console == 1) {
+print(cor_xt)
+
+}
+else {
+print(paste ("You did not request to print the correlation matrix on the R console for operation ", i) )
+}
+#=======End: #This prints the results of the correlation coefficient on the R Console environ =========================
+
+#=======Begin: This will Save the data to a Correlation Matrix file and saves the CSV file into the R default directory "MY DOCUMENT" =========================
+if (save_corr_matrix_file == 1) {
+correlation_csvfile <- paste ("correlation_file",i,".csv")
+write.csv(cor_xt, file=correlation_csvfile, append = TRUE, fileEncoding = "UTF-16LE")
+}
+else {
+print(paste ("You did not request to save the data into CSV file for operation ", i) )
+}
+#=======End: This will Save the data to a CSV file =========================
+
+
+
+#csvfile <- paste ("data",i,".csv")
+#write.csv(df_result, file=csvfile, append = TRUE, fileEncoding = "UTF-16LE")
+
+#print(round(cor(df_xt), digits=2))
+#print(df_result)
 #print(cor_xt)
 
-NN = NN -640
+NN = NN - NN_step
 }
 
 }
 
-Mixture_Ratio(10000)
+Mixture_Ratio(NN=10000, NN_step=300, pop_total=35, analysis_result_console=1, save_analysis_result=1, save_data_file=1, corr_matrix_console=0, save_corr_matrix_file=1)
